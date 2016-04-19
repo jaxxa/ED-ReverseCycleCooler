@@ -11,23 +11,63 @@ namespace Enhanced_Development.Temperature
     public class Building_ReverseCycleCooler : Building_Cooler
     {
         private static Texture2D UI_ROTATE_RIGHT;
-        
+
+        private const float HeatOutputMultiplier = 1.25f;
+        private const float EfficiencyLossPerDegreeDifference = 0.007692308f;
+
+        //Change to enum later?
+        private enumCoolerMode m_Mode = enumCoolerMode.Cooling;
+
         public override void SpawnSetup()
         {
             base.SpawnSetup();
             UI_ROTATE_RIGHT = ContentFinder<Texture2D>.Get("UI/RotRight", true);
         }
 
-       /* public override void TickRare()
+        public override void TickRare()
         {
             if (!this.compPowerTrader.PowerOn)
-            {
                 return;
+            IntVec3 intVec3_1 = this.Position + Gen.RotatedBy(IntVec3.South, this.Rotation);
+            IntVec3 intVec3_2 = this.Position + Gen.RotatedBy(IntVec3.North, this.Rotation);
+            bool flag = false;
+            if (!GenGrid.Impassable(intVec3_2) && !GenGrid.Impassable(intVec3_1))
+            {
+                float temperature1 = GridsUtility.GetTemperature(intVec3_2);
+                float temperature2 = GridsUtility.GetTemperature(intVec3_1);
+                float num1 = temperature1 - temperature2;
+                if ((double)temperature1 - 40.0 > (double)num1)
+                    num1 = temperature1 - 40f;
+                float num2 = (float)(1.0 - (double)num1 * (1.0 / 130.0));
+                if ((double)num2 < 0.0)
+                    num2 = 0.0f;
+                float energyLimit = (float)((double)this.compTempControl.Props.energyPerSecond * (double)num2 * 4.16666650772095);
+                float a = GenTemperature.ControlTemperatureTempChange(intVec3_1, energyLimit, this.compTempControl.targetTemperature);
+                flag = !Mathf.Approximately(a, 0.0f);
+                if (flag)
+                {
+                    GridsUtility.GetRoom(intVec3_1).Temperature += a;
+                    GenTemperature.PushHeat(intVec3_2, (float)(-(double)energyLimit * 1.25));
+                }
             }
-            IntVec3 intVec3_1 = this.Position + Gen.RotatedBy(IntVec3.south, this.Rotation);
-            IntVec3 intVec3_2 = this.Position + Gen.RotatedBy(IntVec3.north, this.Rotation);
+            CompProperties_Power props = this.compPowerTrader.Props;
+            if (flag)
+                this.compPowerTrader.PowerOutput = -props.basePowerConsumption;
+            else
+                this.compPowerTrader.PowerOutput = -props.basePowerConsumption * this.compTempControl.Props.lowPowerConsumptionFactor;
+            this.compTempControl.operatingAtHighPower = flag;
+        }
 
-        }*/
+        /* public override void TickRare()
+         {
+             if (!this.compPowerTrader.PowerOn)
+             {
+                 return;
+             }
+             IntVec3 intVec3_1 = this.Position + Gen.RotatedBy(IntVec3.south, this.Rotation);
+             IntVec3 intVec3_2 = this.Position + Gen.RotatedBy(IntVec3.north, this.Rotation);
+
+         }*/
 
         public override IEnumerable<Gizmo> GetGizmos()
         {
@@ -36,8 +76,7 @@ namespace Enhanced_Development.Temperature
             {
                 yield return g;
             }
-
-
+            
             if (true)
             {
                 Command_Action act = new Command_Action();
@@ -51,42 +90,53 @@ namespace Enhanced_Development.Temperature
                 //act.groupKey = 689736;
                 yield return act;
             }
-        }
 
 
-        /*
-        public override IEnumerable<Command> GetCommands()
-        {
-            IList<Command> CommandList = new List<Command>();
-            IEnumerable<Command> baseCommands = base.GetCommands();
-
-            if (baseCommands != null)
+            if (this.m_Mode == enumCoolerMode.Cooling)
             {
-                CommandList = baseCommands.ToList();
-            }
-
-            if (true)
-            {
-                //Upgrading
-                Command_Action command_Action_AddResources = new Command_Action();
-
-                command_Action_AddResources.defaultLabel = "Rotate";
-
-                command_Action_AddResources.icon = UI_ADD_RESOURCES;
-                command_Action_AddResources.defaultDesc = "Rotate";
-
-                command_Action_AddResources.activateSound = SoundDef.Named("Click");
-                command_Action_AddResources.action = new Action(this.ChangeRotation);
-
-                CommandList.Add(command_Action_AddResources);
+                Command_Action act = new Command_Action();
+                //act.action = () => Designator_Deconstruct.DesignateDeconstruct(this);
+                act.action = () => this.ChangeMode();
+                //act.icon = UI_ROTATE_RIGHT;
+                act.defaultLabel = "Cooling";
+                act.defaultDesc = "Cooling";
+                act.activateSound = SoundDef.Named("Click");
+                //act.hotKey = KeyBindingDefOf.DesignatorDeconstruct;
+                //act.groupKey = 689736;
+                yield return act;
             }
 
 
-            return CommandList.AsEnumerable<Command>();
-            //return compPowerTrader.CompGetCommandsExtra();
-            //return base.GetCommands();
+            if (this.m_Mode == enumCoolerMode.Heating)
+            {
+                Command_Action act = new Command_Action();
+                //act.action = () => Designator_Deconstruct.DesignateDeconstruct(this);
+                act.action = () => this.ChangeMode();
+                //act.icon = UI_ROTATE_RIGHT;
+                act.defaultLabel = "Heating";
+                act.defaultDesc = "Heating";
+                act.activateSound = SoundDef.Named("Click");
+                //act.hotKey = KeyBindingDefOf.DesignatorDeconstruct;
+                //act.groupKey = 689736;
+                yield return act;
+            }
+
+
+            if (this.m_Mode == enumCoolerMode.Auto)
+            {
+                Command_Action act = new Command_Action();
+                //act.action = () => Designator_Deconstruct.DesignateDeconstruct(this);
+                act.action = () => this.ChangeMode();
+                //act.icon = UI_ROTATE_RIGHT;
+                act.defaultLabel = "Auto";
+                act.defaultDesc = "Auto";
+                act.activateSound = SoundDef.Named("Click");
+                //act.hotKey = KeyBindingDefOf.DesignatorDeconstruct;
+                //act.groupKey = 689736;
+                yield return act;
+            }
         }
-        */
+
         public void ChangeRotation()
         {
             //Log.Error("Rotation");
@@ -97,18 +147,41 @@ namespace Enhanced_Development.Temperature
             }
             else
             {
-
                 this.Rotation = new Rot4(this.Rotation.AsInt + 1);
             }
 
-
             // Tell the MapDrawer that here is something thats changed
             Find.MapDrawer.MapMeshDirty(Position, MapMeshFlag.Things, true, false);
-            
+
             //this.Rotation.Rotate(RotationDirection.Clockwise);
             //this.Rotation.Rotate(RotationDirection.Clockwise);
 
         }
 
+        public void ChangeMode()
+        {
+            if (this.m_Mode == enumCoolerMode.Cooling)
+            {
+                this.m_Mode = enumCoolerMode.Heating;
+            }
+            else if (this.m_Mode == enumCoolerMode.Heating)
+            {
+                this.m_Mode = enumCoolerMode.Auto;
+            }
+            else if (this.m_Mode == enumCoolerMode.Auto)
+            {
+                this.m_Mode = enumCoolerMode.Cooling;
+            }
+        }
+    }
+
+    public enum enumCoolerMode
+    {
+        //Default Mod, Cooling to a specific temperature.
+        Cooling,
+        //Heating to a specific temperature.
+        Heating,
+        //Targeting a specific temperature and Heating or Cooling to reach it.
+        Auto
     }
 }
