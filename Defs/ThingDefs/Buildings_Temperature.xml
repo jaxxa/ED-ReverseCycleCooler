@@ -51,7 +51,7 @@
 		</costList>
 		<terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
 		<placeWorkers>
-			<li>PlaceWorker_Cooler</li>
+			<li>Enhanced_Development.Temperature.PlaceWorker_ReverseCycleCooler</li>
 		</placeWorkers>
 		<drawPlaceWorkersWhileSelected>true</drawPlaceWorkersWhileSelected>
 		<building>
