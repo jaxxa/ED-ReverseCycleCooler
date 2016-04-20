@@ -11,7 +11,10 @@ namespace Enhanced_Development.Temperature
     public class Building_ReverseCycleCooler : Building_Cooler
     {
         private static Texture2D UI_ROTATE_RIGHT;
-
+        private static Texture2D UI_TEMPERATURE_COOLING;
+        private static Texture2D UI_TEMPERATURE_HEATING;
+        private static Texture2D UI_TEMPERATURE_AUTO;
+        
         private const float HeatOutputMultiplier = 1.25f;
         private const float EfficiencyLossPerDegreeDifference = 0.007692308f;
 
@@ -22,6 +25,9 @@ namespace Enhanced_Development.Temperature
         {
             base.SpawnSetup();
             UI_ROTATE_RIGHT = ContentFinder<Texture2D>.Get("UI/RotRight", true);
+            UI_TEMPERATURE_COOLING = ContentFinder<Texture2D>.Get("UI/Temperature_Cooling", true);
+            UI_TEMPERATURE_HEATING = ContentFinder<Texture2D>.Get("UI/Temperature_Heating", true);
+            UI_TEMPERATURE_AUTO = ContentFinder<Texture2D>.Get("UI/Temperature_Auto", true);
         }
 
         public override void TickRare()
@@ -152,7 +158,7 @@ namespace Enhanced_Development.Temperature
                 Command_Action act = new Command_Action();
                 //act.action = () => Designator_Deconstruct.DesignateDeconstruct(this);
                 act.action = () => this.ChangeMode();
-                //act.icon = UI_ROTATE_RIGHT;
+                act.icon = UI_TEMPERATURE_COOLING;
                 act.defaultLabel = "Cooling";
                 act.defaultDesc = "Cooling";
                 act.activateSound = SoundDef.Named("Click");
@@ -167,7 +173,7 @@ namespace Enhanced_Development.Temperature
                 Command_Action act = new Command_Action();
                 //act.action = () => Designator_Deconstruct.DesignateDeconstruct(this);
                 act.action = () => this.ChangeMode();
-                //act.icon = UI_ROTATE_RIGHT;
+                act.icon = UI_TEMPERATURE_HEATING;
                 act.defaultLabel = "Heating";
                 act.defaultDesc = "Heating";
                 act.activateSound = SoundDef.Named("Click");
@@ -182,7 +188,7 @@ namespace Enhanced_Development.Temperature
                 Command_Action act = new Command_Action();
                 //act.action = () => Designator_Deconstruct.DesignateDeconstruct(this);
                 act.action = () => this.ChangeMode();
-                //act.icon = UI_ROTATE_RIGHT;
+                act.icon = UI_TEMPERATURE_AUTO;
                 act.defaultLabel = "Auto";
                 act.defaultDesc = "Auto";
                 act.activateSound = SoundDef.Named("Click");
