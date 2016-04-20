@@ -27,7 +27,10 @@ namespace Enhanced_Development.Temperature
         public override void TickRare()
         {
             if (!this.compPowerTrader.PowerOn)
+            {
                 return;
+            }
+
             IntVec3 intVec3_1 = this.Position + Gen.RotatedBy(IntVec3.South, this.Rotation);
             IntVec3 intVec3_2 = this.Position + Gen.RotatedBy(IntVec3.North, this.Rotation);
             bool flag = false;
@@ -35,21 +38,78 @@ namespace Enhanced_Development.Temperature
             {
                 float temperature1 = GridsUtility.GetTemperature(intVec3_2);
                 float temperature2 = GridsUtility.GetTemperature(intVec3_1);
-                float num1 = temperature1 - temperature2;
-                if ((double)temperature1 - 40.0 > (double)num1)
-                    num1 = temperature1 - 40f;
-                float num2 = (float)(1.0 - (double)num1 * (1.0 / 130.0));
-                if ((double)num2 < 0.0)
-                    num2 = 0.0f;
-                float energyLimit = (float)((double)this.compTempControl.Props.energyPerSecond * (double)num2 * 4.16666650772095);
-                float a = GenTemperature.ControlTemperatureTempChange(intVec3_1, energyLimit, this.compTempControl.targetTemperature);
-                flag = !Mathf.Approximately(a, 0.0f);
+
+
+                //Check for Mode
+                bool _cooling = true;
+                if (this.m_Mode == enumCoolerMode.Cooling)
+                {
+                    _cooling = true;
+                }
+                else if(this.m_Mode == enumCoolerMode.Heating)
+                {
+                    _cooling = false;
+                }
+                else if (this.m_Mode == enumCoolerMode.Auto)
+                {
+                    Log.Message("T1: " + temperature1 + "T2: " + temperature2 + "TT: " + this.compTempControl.targetTemperature);
+                    if (temperature1 > this.compTempControl.targetTemperature)
+                    {
+                        Log.Message("Auto Cooling");
+                        _cooling = true;
+                    }
+                    else
+                    {
+                        Log.Message("Auto Heating");
+                        _cooling = false;
+                    }
+                }
+
+                float a = 0.0f;
+                float energyLimit = 0.0f;
+
+                if (_cooling)
+                {
+                    Log.Message("Cooling");
+                    float _TemperatureDifferance = temperature1 - temperature2;
+                    if ((double)temperature1 - 40.0 > (double)_TemperatureDifferance)
+                        _TemperatureDifferance = temperature1 - 40f;
+                    float num2 = (float)(1.0 - (double)_TemperatureDifferance * (1.0 / 130.0));
+                    if ((double)num2 < 0.0)
+                        num2 = 0.0f;
+                    energyLimit = (float)((double)this.compTempControl.Props.energyPerSecond * (double)num2 * 4.16666650772095);
+                    a = GenTemperature.ControlTemperatureTempChange(intVec3_1, energyLimit, this.compTempControl.targetTemperature);
+                    flag = !Mathf.Approximately(a, 0.0f);
+                }
+                else
+                {
+                    Log.Message("Heating");
+                    //Reverse the Polarity (or Temperature)
+                    //float _Temp = temperature1;
+                    //temperature1 = temperature2;
+                    //temperature2 = _Temp;
+
+                    float _TemperatureDifferance = temperature1 - temperature2;
+                    if ((double)temperature1 + 40.0 > (double)_TemperatureDifferance)
+                        _TemperatureDifferance = temperature1 + 40f;
+                    float num2 = (float)(1.0 - (double)_TemperatureDifferance * (1.0 / 130.0));
+                    if ((double)num2 < 0.0)
+                        num2 = 0.0f;
+                    energyLimit = (float)((double)this.compTempControl.Props.energyPerSecond * -(double)num2 * 4.16666650772095);
+                    //energyLimit = (float)((double)this.compTempControl.Props.energyPerSecond * 4.16666650772095 * -1);
+                    a = GenTemperature.ControlTemperatureTempChange(intVec3_1, energyLimit, this.compTempControl.targetTemperature);
+                    flag = !Mathf.Approximately(a, 0.0f);
+                    Log.Message("TempDiff: " + _TemperatureDifferance + " num2: " + num2 + " EnergyLimit: " + energyLimit + " a: " + a);
+                }
+
                 if (flag)
                 {
-                    GridsUtility.GetRoom(intVec3_1).Temperature += a;
-                    GenTemperature.PushHeat(intVec3_2, (float)(-(double)energyLimit * 1.25));
+                    GridsUtility.GetRoom(intVec3_2).Temperature -= a;
+                    GenTemperature.PushHeat(intVec3_1, (float)(+(double)energyLimit * 1.25));
                 }
             }
+
+
             CompProperties_Power props = this.compPowerTrader.Props;
             if (flag)
                 this.compPowerTrader.PowerOutput = -props.basePowerConsumption;
