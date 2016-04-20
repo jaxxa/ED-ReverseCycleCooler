@@ -70,7 +70,7 @@ namespace Enhanced_Development.Temperature
 
                 if (_cooling)
                 {
-                    Log.Message("Cooling");
+                    //Log.Message("Cooling");
                     float _TemperatureDifferance = temperature1 - temperature2;
                     if ((double)temperature1 - 40.0 > (double)_TemperatureDifferance)
                         _TemperatureDifferance = temperature1 - 40f;
@@ -83,13 +83,8 @@ namespace Enhanced_Development.Temperature
                 }
                 else
                 {
-                    Log.Message("Heating");
-                    //Reverse the Polarity (or Temperature)
-                    //float _Temp = temperature1;
-                    //temperature1 = temperature2;
-                    //temperature2 = _Temp;
-
-                    float _TemperatureDifferance = temperature1 - temperature2;
+                    //Log.Message("Heating");
+                       float _TemperatureDifferance = temperature1 - temperature2;
                     if ((double)temperature1 + 40.0 > (double)_TemperatureDifferance)
                         _TemperatureDifferance = temperature1 + 40f;
                     float num2 = (float)(1.0 - (double)_TemperatureDifferance * (1.0 / 130.0));
@@ -232,6 +227,28 @@ namespace Enhanced_Development.Temperature
             {
                 this.m_Mode = enumCoolerMode.Cooling;
             }
+        }
+
+        public override string GetInspectString()
+        {
+
+            StringBuilder stringBuilder = new StringBuilder();
+            
+            if (this.m_Mode == enumCoolerMode.Cooling)
+            {
+                stringBuilder.AppendLine("Mode: Cooling");
+            }
+            else if (this.m_Mode == enumCoolerMode.Heating)
+            {
+                stringBuilder.AppendLine("Mode: Heating");
+            }
+            else if (this.m_Mode == enumCoolerMode.Auto)
+            {
+                stringBuilder.AppendLine("Mode: Auto");
+            }
+
+            stringBuilder.Append(base.GetInspectString());
+            return stringBuilder.ToString();
         }
     }
 
