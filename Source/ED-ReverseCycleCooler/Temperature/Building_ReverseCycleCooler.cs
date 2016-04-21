@@ -256,6 +256,18 @@ namespace Enhanced_Development.Temperature
             stringBuilder.Append(base.GetInspectString());
             return stringBuilder.ToString();
         }
+
+
+        //Saving game
+        public override void ExposeData()
+        {
+            base.ExposeData();
+
+            // Scribe_Deep.LookDeep(ref shieldField, "shieldField");
+            // Scribe_Values.LookValue(ref m_Mode, "m_Mode");
+            //Scribe_Collections.LookList<Thing>(ref listOfBufferThings, "listOfBufferThings", LookMode.Deep, (object)null);
+            Scribe_Values.LookValue(ref m_Mode, "m_Mode");
+        }
     }
 
     public enum enumCoolerMode
