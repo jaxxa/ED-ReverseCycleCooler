@@ -4,7 +4,6 @@
 	<author>Jaxxa</author>
 	<url>https://ludeon.com/forums/index.php?topic=15606.0</url>
 	<description>
-	Requires: ED-Core
 This module changes the cooler to have a rotate option; this allows you to switch it between cooling a room and using its output to warm the same room.
 	</description>
 </ModMetaData>
