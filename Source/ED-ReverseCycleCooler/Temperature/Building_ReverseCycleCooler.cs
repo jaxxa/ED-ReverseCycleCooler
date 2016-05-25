@@ -58,15 +58,15 @@ namespace Enhanced_Development.Temperature
                 }
                 else if (this.m_Mode == enumCoolerMode.Auto)
                 {
-                    Log.Message("T1: " + temperature1 + "T2: " + temperature2 + "TT: " + this.compTempControl.targetTemperature);
+                    //Log.Message("T1: " + temperature1 + "T2: " + temperature2 + "TT: " + this.compTempControl.targetTemperature);
                     if (temperature1 > this.compTempControl.targetTemperature)
                     {
-                        Log.Message("Auto Cooling");
+                        //Log.Message("Auto Cooling");
                         _cooling = true;
                     }
                     else
                     {
-                        Log.Message("Auto Heating");
+                        //Log.Message("Auto Heating");
                         _cooling = false;
                     }
                 }
@@ -100,7 +100,7 @@ namespace Enhanced_Development.Temperature
                     //energyLimit = (float)((double)this.compTempControl.Props.energyPerSecond * 4.16666650772095 * -1);
                     a = GenTemperature.ControlTemperatureTempChange(intVec3_1, energyLimit, this.compTempControl.targetTemperature);
                     flag = !Mathf.Approximately(a, 0.0f);
-                    Log.Message("TempDiff: " + _TemperatureDifferance + " num2: " + num2 + " EnergyLimit: " + energyLimit + " a: " + a);
+                    //Log.Message("TempDiff: " + _TemperatureDifferance + " num2: " + num2 + " EnergyLimit: " + energyLimit + " a: " + a);
                 }
 
                 if (flag)
