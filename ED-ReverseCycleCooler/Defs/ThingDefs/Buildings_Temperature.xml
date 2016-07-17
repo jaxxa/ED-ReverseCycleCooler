@@ -31,7 +31,7 @@
 				<cornerBR>Damage/Corner</cornerBR>
 			</damageData>
 		</graphicData>
-		<altitudeLayer>BuildingTall</altitudeLayer>
+		<altitudeLayer>Building</altitudeLayer>
 		<passability>Impassable</passability>
 		<fillPercent>1</fillPercent>
 		<coversFloor>true</coversFloor>
@@ -47,7 +47,7 @@
 		<description>An electrical device that fits into a wall and pushes cold air into a room. Its exhaust port generates a lot of heat. Can be used to cool down rooms during the summer months, or to create a walk-in freezer. </description>
 		<costList>
 			<Steel>90</Steel>
-			<Components>3</Components>
+			<Component>3</Component>
 		</costList>
 		<terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
 		<placeWorkers>

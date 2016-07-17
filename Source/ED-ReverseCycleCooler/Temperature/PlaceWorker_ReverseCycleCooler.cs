@@ -11,8 +11,8 @@ namespace Enhanced_Development.Temperature
     {
         public override void DrawGhost(ThingDef def, IntVec3 center, Rot4 rot)
         {
-            IntVec3 loc1 = center + Gen.RotatedBy(IntVec3.South, rot);
-            IntVec3 loc2 = center + Gen.RotatedBy(IntVec3.North, rot);
+            IntVec3 loc1 = center + IntVec3Utility.RotatedBy(IntVec3.South, rot);
+            IntVec3 loc2 = center + IntVec3Utility.RotatedBy(IntVec3.North, rot);
             GenDraw.DrawFieldEdges(new List<IntVec3>()
       {
         loc1
@@ -41,7 +41,7 @@ namespace Enhanced_Development.Temperature
 
         public override AcceptanceReport AllowsPlacing(BuildableDef def, IntVec3 center, Rot4 rot)
         {
-            if (GenGrid.Impassable(center + Gen.RotatedBy(IntVec3.South, rot)) || GenGrid.Impassable(center + Gen.RotatedBy(IntVec3.North, rot)))
+            if (GenGrid.Impassable(center + IntVec3Utility.RotatedBy(IntVec3.South, rot)) || GenGrid.Impassable(center + IntVec3Utility.RotatedBy(IntVec3.North, rot)))
                 return (AcceptanceReport)Translator.Translate("MustPlaceCoolerWithFreeSpaces");
             return (AcceptanceReport)true;
         }

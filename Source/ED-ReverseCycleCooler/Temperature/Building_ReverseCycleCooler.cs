@@ -8,6 +8,7 @@ using UnityEngine;
 
 namespace Enhanced_Development.Temperature
 {
+    [StaticConstructorOnStartup]
     public class Building_ReverseCycleCooler : Building_Cooler
     {
         private static Texture2D UI_ROTATE_RIGHT;
@@ -36,9 +37,9 @@ namespace Enhanced_Development.Temperature
             {
                 return;
             }
-
-            IntVec3 intVec3_1 = this.Position + Gen.RotatedBy(IntVec3.South, this.Rotation);
-            IntVec3 intVec3_2 = this.Position + Gen.RotatedBy(IntVec3.North, this.Rotation);
+            
+            IntVec3 intVec3_1 = this.Position + IntVec3Utility.RotatedBy(IntVec3.South, this.Rotation);
+            IntVec3 intVec3_2 = this.Position + IntVec3Utility.RotatedBy(IntVec3.North, this.Rotation);
             bool flag = false;
             if (!GenGrid.Impassable(intVec3_2) && !GenGrid.Impassable(intVec3_1))
             {
