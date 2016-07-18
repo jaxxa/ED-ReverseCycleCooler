@@ -20,7 +20,7 @@
 	<ThingDef ParentName="BuildingBase">
 		<defName>Cooler</defName>
 		<label>cooler</label>
-		<thingClass>Enhanced_Development.Temperature.Building_ReverseCycleCooler</thingClass>
+		<thingClass>EnhancedDevelopment.ReverseCycleCooler.Building_ReverseCycleCooler</thingClass>
 		<graphicData>
 			<texPath>Things/Building/Misc/TempControl/Cooler</texPath>
 			<graphicClass>Graphic_Multi</graphicClass>
@@ -51,7 +51,7 @@
 		</costList>
 		<terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
 		<placeWorkers>
-			<li>Enhanced_Development.Temperature.PlaceWorker_ReverseCycleCooler</li>
+			<li>EnhancedDevelopment.ReverseCycleCooler.PlaceWorker_ReverseCycleCooler</li>
 		</placeWorkers>
 		<drawPlaceWorkersWhileSelected>true</drawPlaceWorkersWhileSelected>
 		<building>
@@ -69,7 +69,6 @@
 			<li Class="CompProperties_Breakdownable"/>
 		</comps>
 		<designationCategory>Temperature</designationCategory>
-		<designationHotKey>O</designationHotKey>
 	</ThingDef>
 
 </Defs>

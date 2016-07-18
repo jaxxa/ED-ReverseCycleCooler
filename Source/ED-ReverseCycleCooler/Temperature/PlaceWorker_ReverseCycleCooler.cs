@@ -5,7 +5,7 @@ using System.Text;
 using UnityEngine;
 using Verse;
 
-namespace Enhanced_Development.Temperature
+namespace EnhancedDevelopment.ReverseCycleCooler
 {
     class PlaceWorker_ReverseCycleCooler : PlaceWorker
     {

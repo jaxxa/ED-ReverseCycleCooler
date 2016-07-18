@@ -6,7 +6,7 @@ using Verse;
 using RimWorld;
 using UnityEngine;
 
-namespace Enhanced_Development.Temperature
+namespace EnhancedDevelopment.ReverseCycleCooler
 {
     [StaticConstructorOnStartup]
     public class Building_ReverseCycleCooler : Building_Cooler
