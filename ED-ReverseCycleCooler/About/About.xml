@@ -4,7 +4,11 @@
 	<targetVersion>0.14.1234</targetVersion>
 	<author>Jaxxa</author>
 	<url>https://ludeon.com/forums/index.php?topic=15606.0</url>
-	<description>
+	<description>Version: 02.00.01
+Discussion, Non Steam Downloads and GitHub Repositories of this mod is available at: https://ludeon.com/forums/index.php?topic=18995
+Please Use that Thread for Discussion / Feedback that would like me to reply to. 
+Ideally Bugs should be logged on GitHub although in the discussion thread is also fine.
+
 Mod allows the Cooler to work as a Reverse Cycle Air Conditioner. It can be used to Cool a Room as it can in the base game, it can now additionally be used to Heat a room, in heating mode it will output heat into its target room while dumping cool ait in its output. It can additionally be set to Automatic so that it will Heat or Cool a room to a target Temperature. 
 Additionally the mod adds a button that allows you to rotate already placed coolers in case it has been placed incorrectly.
 	</description>

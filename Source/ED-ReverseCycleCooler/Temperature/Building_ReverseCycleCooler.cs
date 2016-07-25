@@ -22,13 +22,17 @@ namespace EnhancedDevelopment.ReverseCycleCooler
         //Change to enum later?
         private enumCoolerMode m_Mode = enumCoolerMode.Cooling;
 
-        public override void SpawnSetup()
+        static Building_ReverseCycleCooler()
         {
-            base.SpawnSetup();
             UI_ROTATE_RIGHT = ContentFinder<Texture2D>.Get("UI/RotRight", true);
             UI_TEMPERATURE_COOLING = ContentFinder<Texture2D>.Get("UI/Temperature_Cooling", true);
             UI_TEMPERATURE_HEATING = ContentFinder<Texture2D>.Get("UI/Temperature_Heating", true);
             UI_TEMPERATURE_AUTO = ContentFinder<Texture2D>.Get("UI/Temperature_Auto", true);
+        }
+
+        public override void SpawnSetup()
+        {
+            base.SpawnSetup();
         }
 
         public override void TickRare()
