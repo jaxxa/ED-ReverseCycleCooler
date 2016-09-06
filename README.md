@@ -15,3 +15,6 @@ This module changes the cooler to have a rotate option; this allows you to switc
 
 02.00.01
 *Fix for potentially not loading Graphical Resources on loading a saved game.
+
+03.00.00
+*Alpha 15 Update
