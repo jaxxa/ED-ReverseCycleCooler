@@ -18,3 +18,6 @@ This module changes the cooler to have a rotate option; this allows you to switc
 
 03.00.00
 *Alpha 15 Update
+
+04.00.00
+*Update to Alpha 16

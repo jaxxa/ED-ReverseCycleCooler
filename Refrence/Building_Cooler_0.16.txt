@@ -1,0 +1,51 @@
+// Decompiled with JetBrains decompiler
+// Type: RimWorld.Building_Cooler
+// Assembly: Assembly-CSharp, Version=0.16.6198.16321, Culture=neutral, PublicKeyToken=null
+// MVID: 53D8232C-04ED-46EC-9D0B-DE4DA53C3ED6
+// Assembly location: C:\~Git\Jaxxa-Rimworld\lib\A16.1393\Assembly-CSharp.dll
+
+using UnityEngine;
+using Verse;
+
+namespace RimWorld
+{
+  public class Building_Cooler : Building_TempControl
+  {
+    private const float HeatOutputMultiplier = 1.25f;
+    private const float EfficiencyLossPerDegreeDifference = 0.007692308f;
+
+    public override void TickRare()
+    {
+      if (!this.compPowerTrader.PowerOn)
+        return;
+      IntVec3 intVec3_1 = this.Position + IntVec3Utility.RotatedBy(IntVec3.South, this.Rotation);
+      IntVec3 intVec3_2 = this.Position + IntVec3Utility.RotatedBy(IntVec3.North, this.Rotation);
+      bool flag = false;
+      if (!GenGrid.Impassable(intVec3_2, this.Map) && !GenGrid.Impassable(intVec3_1, this.Map))
+      {
+        float temperature1 = GridsUtility.GetTemperature(intVec3_2, this.Map);
+        float temperature2 = GridsUtility.GetTemperature(intVec3_1, this.Map);
+        float num1 = temperature1 - temperature2;
+        if ((double) temperature1 - 40.0 > (double) num1)
+          num1 = temperature1 - 40f;
+        float num2 = (float) (1.0 - (double) num1 * (1.0 / 130.0));
+        if ((double) num2 < 0.0)
+          num2 = 0.0f;
+        float energyLimit = (float) ((double) this.compTempControl.Props.energyPerSecond * (double) num2 * 4.16666650772095);
+        float a = GenTemperature.ControlTemperatureTempChange(intVec3_1, this.Map, energyLimit, this.compTempControl.targetTemperature);
+        flag = !Mathf.Approximately(a, 0.0f);
+        if (flag)
+        {
+          GridsUtility.GetRoom(intVec3_1, this.Map).Temperature += a;
+          GenTemperature.PushHeat(intVec3_2, this.Map, (float) (-(double) energyLimit * 1.25));
+        }
+      }
+      CompProperties_Power props = this.compPowerTrader.Props;
+      if (flag)
+        this.compPowerTrader.PowerOutput = -props.basePowerConsumption;
+      else
+        this.compPowerTrader.PowerOutput = -props.basePowerConsumption * this.compTempControl.Props.lowPowerConsumptionFactor;
+      this.compTempControl.operatingAtHighPower = flag;
+    }
+  }
+}

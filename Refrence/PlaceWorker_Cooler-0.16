@@ -1,0 +1,53 @@
+// Decompiled with JetBrains decompiler
+// Type: RimWorld.PlaceWorker_Cooler
+// Assembly: Assembly-CSharp, Version=0.16.6198.16321, Culture=neutral, PublicKeyToken=null
+// MVID: 53D8232C-04ED-46EC-9D0B-DE4DA53C3ED6
+// Assembly location: C:\~Git\Jaxxa-Rimworld\lib\A16.1393\Assembly-CSharp.dll
+
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+using Verse;
+
+namespace RimWorld
+{
+  public class PlaceWorker_Cooler : PlaceWorker
+  {
+    public override void DrawGhost(ThingDef def, IntVec3 center, Rot4 rot)
+    {
+      IntVec3 loc1 = center + IntVec3Utility.RotatedBy(IntVec3.South, rot);
+      IntVec3 loc2 = center + IntVec3Utility.RotatedBy(IntVec3.North, rot);
+      GenDraw.DrawFieldEdges(new List<IntVec3>()
+      {
+        loc1
+      }, GenTemperature.ColorSpotCold);
+      GenDraw.DrawFieldEdges(new List<IntVec3>()
+      {
+        loc2
+      }, GenTemperature.ColorSpotHot);
+      Room room1 = GridsUtility.GetRoom(loc2, this.Map);
+      Room room2 = GridsUtility.GetRoom(loc1, this.Map);
+      if (room1 == null || room2 == null)
+        return;
+      if (room1 == room2 && !room1.UsesOutdoorTemperature)
+      {
+        GenDraw.DrawFieldEdges(Enumerable.ToList<IntVec3>(room1.Cells), new Color(1f, 0.7f, 0.0f, 0.5f));
+      }
+      else
+      {
+        if (!room1.UsesOutdoorTemperature)
+          GenDraw.DrawFieldEdges(Enumerable.ToList<IntVec3>(room1.Cells), GenTemperature.ColorRoomHot);
+        if (room2.UsesOutdoorTemperature)
+          return;
+        GenDraw.DrawFieldEdges(Enumerable.ToList<IntVec3>(room2.Cells), GenTemperature.ColorRoomCold);
+      }
+    }
+
+    public override AcceptanceReport AllowsPlacing(BuildableDef def, IntVec3 center, Rot4 rot, Thing thingToIgnore = null)
+    {
+      if (GenGrid.Impassable(center + IntVec3Utility.RotatedBy(IntVec3.South, rot), this.Map) || GenGrid.Impassable(center + IntVec3Utility.RotatedBy(IntVec3.North, rot), this.Map))
+        return (AcceptanceReport) Translator.Translate("MustPlaceCoolerWithFreeSpaces");
+      return (AcceptanceReport) true;
+    }
+  }
+}

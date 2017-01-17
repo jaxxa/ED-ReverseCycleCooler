@@ -21,8 +21,8 @@ namespace EnhancedDevelopment.ReverseCycleCooler
       {
         loc2
       }, Color.white);
-            Room room1 = GridsUtility.GetRoom(loc2);
-            Room room2 = GridsUtility.GetRoom(loc1);
+            Room room1 = GridsUtility.GetRoom(loc2,this.Map);
+            Room room2 = GridsUtility.GetRoom(loc1, this.Map);
             if (room1 == null || room2 == null)
                 return;
             if (room1 == room2 && !room1.UsesOutdoorTemperature)
@@ -39,9 +39,9 @@ namespace EnhancedDevelopment.ReverseCycleCooler
             }
         }
 
-        public override AcceptanceReport AllowsPlacing(BuildableDef def, IntVec3 center, Rot4 rot)
+        public override AcceptanceReport AllowsPlacing(BuildableDef def, IntVec3 center, Rot4 rot, Thing thingToIgnore = null)
         {
-            if (GenGrid.Impassable(center + IntVec3Utility.RotatedBy(IntVec3.South, rot)) || GenGrid.Impassable(center + IntVec3Utility.RotatedBy(IntVec3.North, rot)))
+            if (GenGrid.Impassable(center + IntVec3Utility.RotatedBy(IntVec3.South, rot), this.Map) || GenGrid.Impassable(center + IntVec3Utility.RotatedBy(IntVec3.North, rot),this.Map))
                 return (AcceptanceReport)Translator.Translate("MustPlaceCoolerWithFreeSpaces");
             return (AcceptanceReport)true;
         }

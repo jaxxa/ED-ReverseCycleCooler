@@ -30,9 +30,9 @@ namespace EnhancedDevelopment.ReverseCycleCooler
             UI_TEMPERATURE_AUTO = ContentFinder<Texture2D>.Get("UI/Temperature_Auto", true);
         }
 
-        public override void SpawnSetup()
+        public override void SpawnSetup(Map map)
         {
-            base.SpawnSetup();
+            base.SpawnSetup(map);
         }
 
         public override void TickRare()
@@ -45,10 +45,10 @@ namespace EnhancedDevelopment.ReverseCycleCooler
             IntVec3 intVec3_1 = this.Position + IntVec3Utility.RotatedBy(IntVec3.South, this.Rotation);
             IntVec3 intVec3_2 = this.Position + IntVec3Utility.RotatedBy(IntVec3.North, this.Rotation);
             bool flag = false;
-            if (!GenGrid.Impassable(intVec3_2) && !GenGrid.Impassable(intVec3_1))
+            if (!GenGrid.Impassable(intVec3_2, this.Map) && !GenGrid.Impassable(intVec3_1, this.Map))
             {
-                float temperature1 = GridsUtility.GetTemperature(intVec3_2);
-                float temperature2 = GridsUtility.GetTemperature(intVec3_1);
+                float temperature1 = GridsUtility.GetTemperature(intVec3_2, this.Map);
+                float temperature2 = GridsUtility.GetTemperature(intVec3_1, this.Map);
 
 
                 //Check for Mode
@@ -89,7 +89,7 @@ namespace EnhancedDevelopment.ReverseCycleCooler
                     if ((double)num2 < 0.0)
                         num2 = 0.0f;
                     energyLimit = (float)((double)this.compTempControl.Props.energyPerSecond * (double)num2 * 4.16666650772095);
-                    a = GenTemperature.ControlTemperatureTempChange(intVec3_1, energyLimit, this.compTempControl.targetTemperature);
+                    a = GenTemperature.ControlTemperatureTempChange(intVec3_1, this.Map, energyLimit, this.compTempControl.targetTemperature);
                     flag = !Mathf.Approximately(a, 0.0f);
                 }
                 else
@@ -103,15 +103,15 @@ namespace EnhancedDevelopment.ReverseCycleCooler
                         num2 = 0.0f;
                     energyLimit = (float)((double)this.compTempControl.Props.energyPerSecond * -(double)num2 * 4.16666650772095);
                     //energyLimit = (float)((double)this.compTempControl.Props.energyPerSecond * 4.16666650772095 * -1);
-                    a = GenTemperature.ControlTemperatureTempChange(intVec3_1, energyLimit, this.compTempControl.targetTemperature);
+                    a = GenTemperature.ControlTemperatureTempChange(intVec3_1, this.Map, energyLimit, this.compTempControl.targetTemperature);
                     flag = !Mathf.Approximately(a, 0.0f);
                     //Log.Message("TempDiff: " + _TemperatureDifferance + " num2: " + num2 + " EnergyLimit: " + energyLimit + " a: " + a);
                 }
 
                 if (flag)
                 {
-                    GridsUtility.GetRoom(intVec3_2).Temperature -= a;
-                    GenTemperature.PushHeat(intVec3_1, (float)(+(double)energyLimit * 1.25));
+                    GridsUtility.GetRoom(intVec3_2, this.Map).Temperature -= a;
+                    GenTemperature.PushHeat(intVec3_1, this.Map, (float)(+(double)energyLimit * 1.25));
                 }
             }
 
@@ -217,7 +217,7 @@ namespace EnhancedDevelopment.ReverseCycleCooler
             }
 
             // Tell the MapDrawer that here is something thats changed
-            Find.MapDrawer.MapMeshDirty(Position, MapMeshFlag.Things, true, false);
+            this.Map.mapDrawer.MapMeshDirty(Position, MapMeshFlag.Things, true, false);
 
             //this.Rotation.Rotate(RotationDirection.Clockwise);
             //this.Rotation.Rotate(RotationDirection.Clockwise);
