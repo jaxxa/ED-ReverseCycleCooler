@@ -30,9 +30,9 @@ namespace EnhancedDevelopment.ReverseCycleCooler
             UI_TEMPERATURE_AUTO = ContentFinder<Texture2D>.Get("UI/Temperature_Auto", true);
         }
 
-        public override void SpawnSetup(Map map)
+        public override void SpawnSetup(Map map, bool respawningAfterLoad)
         {
-            base.SpawnSetup(map);
+            base.SpawnSetup(map, respawningAfterLoad);
         }
 
         public override void TickRare()
@@ -110,7 +110,7 @@ namespace EnhancedDevelopment.ReverseCycleCooler
 
                 if (flag)
                 {
-                    GridsUtility.GetRoom(intVec3_2, this.Map).Temperature -= a;
+                    GridsUtility.GetRoomGroup(intVec3_2, this.Map).Temperature -= a;
                     GenTemperature.PushHeat(intVec3_1, this.Map, (float)(+(double)energyLimit * 1.25));
                 }
             }
@@ -271,7 +271,7 @@ namespace EnhancedDevelopment.ReverseCycleCooler
             // Scribe_Deep.LookDeep(ref shieldField, "shieldField");
             // Scribe_Values.LookValue(ref m_Mode, "m_Mode");
             //Scribe_Collections.LookList<Thing>(ref listOfBufferThings, "listOfBufferThings", LookMode.Deep, (object)null);
-            Scribe_Values.LookValue(ref m_Mode, "m_Mode");
+            Scribe_Values.Look(ref m_Mode, "m_Mode");
         }
     }
 
