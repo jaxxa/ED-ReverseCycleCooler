@@ -24,3 +24,6 @@ This module changes the cooler to have a rotate option; this allows you to switc
 
 0.17.0
 * Updating to Alphaa 17
+
+0.18.0.0
+* Updating to Alphaa 17
