@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModMetaData>
 	<name>ED-ReverseCycleCooler</name>
-	<targetVersion>0.18.0</targetVersion>
+	<targetVersion>1.0.2059</targetVersion>
 	<author>Jaxxa</author>
-	<url>https://ludeon.com/forums/index.php?topic=15606.0</url>
-	<description>Version: 0.18.0.0
-Discussion, Non Steam Downloads of this mod is available at: https://ludeon.com/forums/index.php?topic=37158
+	<url>https://github.com/jaxxa/JaxxaRimworldReleaseCollection/blob/master/README.md</url>
+	<description>Version: 1.0.0.0
+Links to all my mods including non steam versions available at: https://github.com/jaxxa/JaxxaRimworldReleaseCollection/blob/master/README.md
 
 Mod allows the Cooler to work as a Reverse Cycle Air Conditioner. It can be used to Cool a Room as it can in the base game, it can now additionally be used to Heat a room, in heating mode it will output heat into its target room while dumping cool ait in its output. It can additionally be set to Automatic so that it will Heat or Cool a room to a target Temperature. 
 Additionally the mod adds a button that allows you to rotate already placed coolers in case it has been placed incorrectly.
