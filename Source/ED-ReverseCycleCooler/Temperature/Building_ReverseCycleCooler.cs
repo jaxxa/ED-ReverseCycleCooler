@@ -33,12 +33,12 @@ namespace EnhancedDevelopment.ReverseCycleCooler
             {
                 if (!MP.API.Equals("0.1"))
                 {
-                    Log.Message("ReverseCycleCooler: MP API version mismatch. This mod is designed to work with MPAPI version 0.1");
+                    Log.Error("ReverseCycleCooler: MP API version mismatch. This mod is designed to work with MPAPI version 0.1");
                 }
                 else
                 {
                     MP.RegisterAll();
-                    Log.Message("ReverseCycleCooler: MP init");
+                    //Log.Message("ReverseCycleCooler: MP init");
                 }
             }
         }
