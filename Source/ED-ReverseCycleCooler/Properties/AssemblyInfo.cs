@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("ED-ReverseCycleCooler")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("multiplayer ready")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("ED-ReverseCycleCooler")]
-[assembly: AssemblyCopyright("Copyright ©  2016")]
+[assembly: AssemblyCopyright("Copyright © 2019 Jaxxa")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

@@ -5,6 +5,7 @@
 
 *.suo
 *.dll
+!0MultiplayerAPI.dll
 *.exe
 
 **/bin

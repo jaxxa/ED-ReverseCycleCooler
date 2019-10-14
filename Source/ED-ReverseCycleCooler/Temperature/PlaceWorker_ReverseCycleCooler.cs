@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using UnityEngine;
 using Verse;
 
@@ -14,11 +12,15 @@ namespace EnhancedDevelopment.ReverseCycleCooler
             Map currentMap = Find.CurrentMap;
             IntVec3 intVec = center + IntVec3.South.RotatedBy(rot);
             IntVec3 intVec2 = center + IntVec3.North.RotatedBy(rot);
-            List<IntVec3> list = new List<IntVec3>();
-            list.Add(intVec);
+            List<IntVec3> list = new List<IntVec3>
+            {
+                intVec
+            };
             GenDraw.DrawFieldEdges(list, Color.magenta);
-            list = new List<IntVec3>();
-            list.Add(intVec2);
+            list = new List<IntVec3>
+            {
+                intVec2
+            };
             GenDraw.DrawFieldEdges(list, Color.white);
             RoomGroup roomGroup = intVec2.GetRoomGroup(currentMap);
             RoomGroup roomGroup2 = intVec.GetRoomGroup(currentMap);
