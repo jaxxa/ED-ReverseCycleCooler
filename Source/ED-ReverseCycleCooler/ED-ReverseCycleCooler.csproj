@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="0MultiplayerAPI">
+      <HintPath>..\..\..\..\RW-DLL\Multiplayer\0.4.8.3 - For RW1.0\0MultiplayerAPI.dll</HintPath>
+    </Reference>
     <Reference Include="Assembly-CSharp">
       <HintPath>..\..\..\..\RW-DLL\1.0\2408\Assembly-CSharp.dll</HintPath>
       <Private>False</Private>

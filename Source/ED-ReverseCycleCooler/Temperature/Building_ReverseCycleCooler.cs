@@ -5,6 +5,7 @@ using System.Text;
 using Verse;
 using RimWorld;
 using UnityEngine;
+using Multiplayer.API;
 
 namespace EnhancedDevelopment.ReverseCycleCooler
 {
@@ -28,6 +29,21 @@ namespace EnhancedDevelopment.ReverseCycleCooler
             UI_TEMPERATURE_COOLING = ContentFinder<Texture2D>.Get("UI/Temperature_Cooling", true);
             UI_TEMPERATURE_HEATING = ContentFinder<Texture2D>.Get("UI/Temperature_Heating", true);
             UI_TEMPERATURE_AUTO = ContentFinder<Texture2D>.Get("UI/Temperature_Auto", true);
+
+
+            if (MP.enabled)
+            {
+                if (!MP.API.Equals("0.1"))
+                {
+                    Log.Error("ReverseCycleCooler: MP API version mismatch. This mod is designed to work with MPAPI version 0.1");
+                }
+                else
+                {
+                    MP.RegisterAll();
+                    //Log.Message("ReverseCycleCooler: MP init");
+                }
+            }
+
         }
 
         public override void SpawnSetup(Map map, bool respawningAfterLoad)
@@ -123,18 +139,7 @@ namespace EnhancedDevelopment.ReverseCycleCooler
                 this.compPowerTrader.PowerOutput = -props.basePowerConsumption * this.compTempControl.Props.lowPowerConsumptionFactor;
             this.compTempControl.operatingAtHighPower = flag;
         }
-
-        /* public override void TickRare()
-         {
-             if (!this.compPowerTrader.PowerOn)
-             {
-                 return;
-             }
-             IntVec3 intVec3_1 = this.Position + Gen.RotatedBy(IntVec3.south, this.Rotation);
-             IntVec3 intVec3_2 = this.Position + Gen.RotatedBy(IntVec3.north, this.Rotation);
-
-         }*/
-
+        
         public override IEnumerable<Gizmo> GetGizmos()
         {
             //Add the stock Gizmoes
@@ -223,7 +228,8 @@ namespace EnhancedDevelopment.ReverseCycleCooler
             //this.Rotation.Rotate(RotationDirection.Clockwise);
 
         }
-
+        
+        [SyncMethod]
         public void ChangeMode()
         {
             if (this.m_Mode == enumCoolerMode.Cooling)
