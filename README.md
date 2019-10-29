@@ -3,6 +3,9 @@ This module changes the cooler to have a rotate option; this allows you to switc
 
 #Change Log
 
+1.0.0.1
+ * Updating to Rimworld 1.0.2408
+ * Adding Multiplayer support against v0.4.8.3
 
 1.0.0.0
  * Updating to Rimworld 1.0
