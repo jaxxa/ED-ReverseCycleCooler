@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModMetaData>
 	<name>ED-ReverseCycleCooler</name>
-	<targetVersion>1.0.2408</targetVersion>
 	<author>Jaxxa</author>
 	<url>https://github.com/jaxxa/JaxxaRimworldReleaseCollection/blob/master/README.md</url>
+	<supportedVersions>
+		<li>1.0</li>
+	</supportedVersions>
 	<description>Version: 1.0.0.1
 Links to all my mods including non steam versions available at: https://github.com/jaxxa/JaxxaRimworldReleaseCollection/blob/master/README.md
 
