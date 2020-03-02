@@ -5,7 +5,7 @@ using System.Text;
 using Verse;
 using RimWorld;
 using UnityEngine;
-using Multiplayer.API;
+//using Multiplayer.API;
 
 namespace EnhancedDevelopment.ReverseCycleCooler
 {
@@ -31,18 +31,18 @@ namespace EnhancedDevelopment.ReverseCycleCooler
             UI_TEMPERATURE_AUTO = ContentFinder<Texture2D>.Get("UI/Temperature_Auto", true);
 
 
-            if (MP.enabled)
-            {
-                if (!MP.API.Equals("0.1"))
-                {
-                    Log.Error("ReverseCycleCooler: MP API version mismatch. This mod is designed to work with MPAPI version 0.1");
-                }
-                else
-                {
-                    MP.RegisterAll();
-                    //Log.Message("ReverseCycleCooler: MP init");
-                }
-            }
+            //if (MP.enabled)
+            //{
+            //    if (!MP.API.Equals("0.1"))
+            //    {
+            //        Log.Error("ReverseCycleCooler: MP API version mismatch. This mod is designed to work with MPAPI version 0.1");
+            //    }
+            //    else
+            //    {
+            //        MP.RegisterAll();
+            //        //Log.Message("ReverseCycleCooler: MP init");
+            //    }
+            //}
 
         }
 
@@ -58,10 +58,10 @@ namespace EnhancedDevelopment.ReverseCycleCooler
                 return;
             }
             
-            IntVec3 intVec3_1 = this.Position + IntVec3Utility.RotatedBy(IntVec3.South, this.Rotation);
-            IntVec3 intVec3_2 = this.Position + IntVec3Utility.RotatedBy(IntVec3.North, this.Rotation);
+            IntVec3 intVec3_1 = this.Position + IntVec3.South.RotatedBy(this.Rotation);
+            IntVec3 intVec3_2 = this.Position + IntVec3.North.RotatedBy(this.Rotation);
             bool flag = false;
-            if (!GenGrid.Impassable(intVec3_2, this.Map) && !GenGrid.Impassable(intVec3_1, this.Map))
+            if (!intVec3_2.Impassable(this.Map) && !intVec3_1.Impassable(this.Map))
             {
                 float temperature1 = GridsUtility.GetTemperature(intVec3_2, this.Map);
                 float temperature2 = GridsUtility.GetTemperature(intVec3_1, this.Map);
@@ -111,7 +111,7 @@ namespace EnhancedDevelopment.ReverseCycleCooler
                 else
                 {
                     //Log.Message("Heating");
-                       float _TemperatureDifferance = temperature1 - temperature2;
+                    float _TemperatureDifferance = temperature1 - temperature2;
                     if ((double)temperature1 + 40.0 > (double)_TemperatureDifferance)
                         _TemperatureDifferance = temperature1 + 40f;
                     float num2 = (float)(1.0 - (double)_TemperatureDifferance * (1.0 / 130.0));
@@ -229,7 +229,7 @@ namespace EnhancedDevelopment.ReverseCycleCooler
 
         }
         
-        [SyncMethod]
+        //[SyncMethod]
         public void ChangeMode()
         {
             if (this.m_Mode == enumCoolerMode.Cooling)
