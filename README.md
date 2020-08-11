@@ -3,6 +3,9 @@ This module changes the cooler to have a rotate option; this allows you to switc
 
 #Change Log
 
+2.1.0.0
+ * Update to 1.2
+
 2.0.0.0
  * Update to 1.1
 
